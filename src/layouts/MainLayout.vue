@@ -1,81 +1,120 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+  <q-layout view="hHh lpR fFf">
+    <!-- ================= HEADER ================= -->
+    <q-header class="header-bar">
+      <div class="nav-wrapper">
+        <!-- LEFT LINKS -->
+        <div class="nav-group left">
+          <q-btn flat to="/eat" label="Eat" class="nav-link" />
+          <q-btn flat to="/drink" label="Drink" class="nav-link" />
+          <q-btn flat to="/spice-house" label="Spice House" class="nav-link active-link" />
+          <q-btn flat to="/whats-on" label="What's On" class="nav-link" />
+        </div>
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <!-- CENTER LOGO -->
+        <div class="logo-container">
+          <q-btn flat to="/" class="logo-btn">
+            <img src="~assets/resto.png" class="logo-img" />
+          </q-btn>
+        </div>
 
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
+        <!-- RIGHT LINKS -->
+        <div class="nav-group right">
+          <q-btn flat to="/blog" label="Blog" class="nav-link" />
+          <q-btn flat to="/press" label="Press" class="nav-link" />
+          <q-btn flat to="/gift-cards" label="Gift Cards" class="nav-link" />
+          <q-btn flat to="/contact" label="Contact" class="nav-link" />
+        </div>
+      </div>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
-      </q-list>
-    </q-drawer>
-
+    <!-- ================= PAGE CONTENT ================= -->
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <!-- ================= FOOTER ================= -->
+    <q-footer class="bg-grey-8 text-center q-pa-md">
+      <div>© 2026 Your Restaurant Name</div>
+    </q-footer>
   </q-layout>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-]
-
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+<script>
+export default {
+  name: 'MainLayout',
 }
 </script>
+
+<style scoped>
+/* ===== HEADER BAR ===== */
+.header-bar {
+  background: #e9e9e9;
+  height: 110px;
+  display: flex;
+  align-items: center;
+}
+
+/* ===== WRAPPER ===== */
+.nav-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* ===== NAV GROUPS ===== */
+.nav-group {
+}
+
+.left {
+  justify-content: flex-start;
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+/* ===== NAV LINKS ===== */
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #222;
+}
+
+.nav-link:hover {
+  color: #e53935;
+}
+
+/* Active link style */
+.active-link {
+  color: #e53935;
+}
+
+/* ===== LOGO CENTER ===== */
+.logo-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo-img {
+  height: 80px;
+  object-fit: contain;
+}
+
+.logo-btn {
+  padding: 0;
+}
+
+@media (max-width: 1200px) {
+  .nav-group {
+    gap: 18px;
+  }
+}
+</style>
