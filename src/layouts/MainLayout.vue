@@ -1,120 +1,148 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <!-- ================= HEADER ================= -->
-    <q-header class="header-bar">
-      <div class="nav-wrapper">
-        <!-- LEFT LINKS -->
-        <div class="nav-group left">
-          <q-btn flat to="/eat" label="Eat" class="nav-link" />
-          <q-btn flat to="/drink" label="Drink" class="nav-link" />
-          <q-btn flat to="/spice-house" label="Spice House" class="nav-link active-link" />
-          <q-btn flat to="/whats-on" label="What's On" class="nav-link" />
-        </div>
+    <!-- HEADER -->
+    <q-header class="bg-white text-black">
+      <q-toolbar class="toolbar-wrapper">
+        <div class="header-container">
+          <q-tabs
+            v-if="$q.screen.width >= 1450"
+            align="center"
+            class="menu-tabs text-weight-bolder full-tabs"
+            indicator-color="transparent"
+          >
+            <!-- LEFT TABS -->
+            <q-tab name="/eat" label="EAT" to="/eat" />
+            <q-tab name="/drink" label="DRINK" to="/drink" />
+            <q-tab name="/spice-house" label="SPICE HOUSE" to="/spice-house" />
+            <q-tab name="/whats-on" label="WHAT'S ON" to="/whats-on" />
 
-        <!-- CENTER LOGO -->
-        <div class="logo-container">
-          <q-btn flat to="/" class="logo-btn">
-            <img src="~assets/resto.png" class="logo-img" />
-          </q-btn>
-        </div>
+            <!-- CENTER LOGO -->
+            <div class="logo-tab">
+              <q-img
+                src="~assets/restov2.png"
+                width="100px"
+                class="cursor-pointer q-my-sm"
+                @click="goHome"
+              />
+            </div>
 
-        <!-- RIGHT LINKS -->
-        <div class="nav-group right">
-          <q-btn flat to="/blog" label="Blog" class="nav-link" />
-          <q-btn flat to="/press" label="Press" class="nav-link" />
-          <q-btn flat to="/gift-cards" label="Gift Cards" class="nav-link" />
-          <q-btn flat to="/contact" label="Contact" class="nav-link" />
+            <!-- RIGHT TABS -->
+            <q-tab name="/blog" label="BLOG" to="/blog" />
+            <q-tab name="/press" label="PRESS" to="/press" />
+            <q-tab name="/gift-cards" label="GIFT CARDS" to="/gift-cards" />
+            <q-tab name="/contact" label="CONTACT" to="/contact" />
+          </q-tabs>
+
+          <!-- MOBILE MENU -->
+          <q-btn
+            v-if="$q.screen.width < 1450"
+            unelevated
+            dense
+            round
+            icon="o_menu"
+            class="bg-primary text-white"
+            @click="toggleLeftDrawer"
+          />
         </div>
-      </div>
+      </q-toolbar>
     </q-header>
 
-    <!-- ================= PAGE CONTENT ================= -->
     <q-page-container>
       <router-view />
     </q-page-container>
-
-    <!-- ================= FOOTER ================= -->
-    <q-footer class="bg-grey-8 text-center q-pa-md">
-      <div>© 2026 Your Restaurant Name</div>
-    </q-footer>
   </q-layout>
 </template>
 
 <script>
 export default {
   name: 'MainLayout',
+
+  computed: {
+    tabs: {
+      get() {
+        return this.$route.path
+      },
+      set(val) {
+        this.$router.push(val)
+      },
+    },
+  },
+
+  methods: {
+    goHome() {
+      this.$router.push('/')
+    },
+    toggleLeftDrawer() {
+      console.log('Drawer toggle here')
+    },
+  },
 }
 </script>
 
 <style scoped>
-/* ===== HEADER BAR ===== */
-.header-bar {
-  background: #e9e9e9;
-  height: 110px;
-  display: flex;
-  align-items: center;
-}
-
-/* ===== WRAPPER ===== */
-.nav-wrapper {
-  max-width: 1400px;
+.header-container {
+  max-width: 1100px;
   margin: 0 auto;
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  position: relative;
+  padding: 0 24px;
 }
 
-/* ===== NAV GROUPS ===== */
-.nav-group {
+.full-tabs {
+  width: 100%;
+  justify-content: center;
 }
 
-.left {
-  justify-content: flex-start;
+.logo-tab {
+  display: flex;
+  align-items: center;
+  padding: 0 35px;
 }
 
-.right {
-  justify-content: flex-end;
+/* Align tabs nicely */
+:deep(.q-tabs__content) {
+  align-items: center;
 }
 
-/* ===== NAV LINKS ===== */
-.nav-link {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #222;
+/* Base tab styling */
+:deep(.q-tab) {
+  padding: 6px 14px;
+  border-radius: 0;
+  background: transparent !important;
+  transition: color 0.25s ease;
 }
 
-.nav-link:hover {
-  color: #e53935;
+/* Remove hover background */
+:deep(.q-tab:hover) {
+  background: transparent !important;
+  color: #ff2600 !important;
 }
 
-/* Active link style */
-.active-link {
-  color: #e53935;
+/* Remove active background */
+:deep(.q-tab--active) {
+  background: transparent !important;
 }
 
-/* ===== LOGO CENTER ===== */
-.logo-container {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+/* Active text color only */
+:deep(.q-tab--active .q-tab__label) {
+  color: #e70e0e !important;
 }
 
-.logo-img {
-  height: 80px;
-  object-fit: contain;
+/* Remove focus highlight layer */
+:deep(.q-tab .q-focus-helper) {
+  opacity: 0 !important;
 }
 
-.logo-btn {
-  padding: 0;
+/* Remove ripple animation */
+:deep(.q-ripple) {
+  display: none !important;
 }
 
-@media (max-width: 1200px) {
-  .nav-group {
-    gap: 18px;
-  }
+:deep(.q-tabs__content) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* THIS spreads everything */
+  width: 100%;
 }
 </style>
