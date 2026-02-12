@@ -6,6 +6,7 @@
         <div class="header-container">
           <q-tabs
             v-if="$q.screen.width >= 1450"
+            v-model="tabs"
             align="center"
             class="menu-tabs text-weight-bolder full-tabs"
             indicator-color="transparent"
